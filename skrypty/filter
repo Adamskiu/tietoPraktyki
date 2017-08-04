@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+with=()
+without=()
+
+while getopts ":w:o:" option;
+do
+  case $option in
+    w) w_enabled=true
+      echo włączono w z opcją $OPTARG
+      with+=($OPTARG);;
+    o) o_enabled=true
+      echo włączono o z opcją $OPTARG
+      without+=($OPTARG);;
+    :) echo $OPTARG wymaga argumentu
+        exit 1;;
+    \?) echo $OPTARG nie istnieje
+        exit 1;;
+  esac
+done
+
+for i in ${with[@]}; do echo $i; done
