@@ -1,0 +1,26 @@
+#!/bin/bash
+
+while read number
+do
+  if [ "$number" -eq "$number" ] 2>/dev/null; then
+    if [ "$number" -lt "1" ] || [ "$number" -gt "80" ]; then
+      echo "Liczba poza zakresem"
+    fi
+    if [ "$number" -le "2" ]; then
+      echo 1
+    else
+      a=1
+      b=1
+      sum=0
+      for ((i = 3; i <= $number; ++i ))
+      do
+        (( sum = a + b))
+        b=$a
+        a=$sum
+      done
+      echo $sum
+    fi
+  else
+    echo "$number to nie liczba"
+  fi
+done
