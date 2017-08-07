@@ -1,0 +1,72 @@
+MAC - adres urządzenia unikalny na skalę światową
+unicast - adresowanie d ojednego celu
+broadcast - wysyłanie do wszystkich w sieci
+multicast - zespół wiadomości unicast wysyłanych raz (ta sama wiadomość wysyłana)
+skype np działa na multicast - trakcie konferencji
+
+ARP - Address Resolution Protocol
+
+komputery używają adresów a nie nazw więc istnieją usłúgi zamieniające te adresy
+Adresy IP i MAC nie mogą się powielać w sieci
+
+
+pierwszy adres jest adresem sieci a ostatni broadcastowym
+
+narzędzie - myipdoc.com/CIDR-to-range.php - jaki adres sieci jaki jest broadcastowy
+
+jodie ip calc - http://jodies.de/ipcalc
+
+subnetting - dzielenie na podsieci o innych adresach ip, mogą być inne reguły bezpieczeństwa, ograniczenie komunikacji np do czatu lub ftp.
+
+trzeba pamiętać żeby zawsze odejmować dwa adresy na adres sieci i broadcastowy
+
+Bierzemy adres docelowy, andujemy ją z maską sieci (maska liczona od prawej do lewej, kończy się tam gdzie zaczynają się zera)
+ADRES DOCELOWY ANDUJEMY Z MASKĄ
+
+Tablica routingu - (najlepiej mieć zawsze wpisaną domyślną bramę. Domyślna brama mówi - dopóki nie mamy zdefiniowanego celu używaj bramy domyślnej, mówi jaki jest następny cel pakietu).
+Tablice są statyczne lub dynamiczne. Tablica routingu określa w jakis sposób pakiet wychodzi od hosta do celu.
+
+VLAN - podscieci można porządkować w VLAN - dla lepszej organizacji podsieci - routing nie pozwala na optymalne korzystnie z zasobów
+
+Warstwa transportowa (sesyjno aplikacyjna) - dane są jednoznacznie identyfikowane do kogo mają trafić - protokół TCP musi utrzymywać ciągłe połączenie.
+Zwykle protokoły UDP używane np w grach - pakiety mogą iść w dowolnej kolejności - w TCP tego nie ma, wszystkie pakiety muszą być odebrane w dowolnej kolejności, jeśli coś nie doszło to
+ponawiamy prośbę o pakiet. Ale TCP jest lepszy jeśli chodzi o integralność danych.
+
+TCP - protokół 4 kroków - mamy nadawcę i odbiorcę - muszą się wymienić pewnymi danymi -
+pierwszy to connect() - nadawca sygnalizuje że chce się połączyć
+odbiorca mówi że jest tym kim trzeba i wysyła gotowość do odbioru (np na innym protokole)
+nadawca mówi - potwierdzam twoją gotowość i sam jestem gotowy i prosi o potwierdzenie
+odbiorca potwierdza i następuje wyminaa danych.
+
+UDP mówi - mam dla ciebie dane, wysyłam i odbiorca potwierdza odbiór
+Aby nie zapychać medium jest sobie sliding window - zapełniamy bufor i wysyłamy z maksymalnym wykorzystaniem bufora aby nie wysyłać wszystkich pakietów osobno.
+Gdy jakiś pakiet nie dojdzie lub jest uszkodzony to transmisja zostanie ponowiona od uszkodzonego pakietu (te po nim zostaną usunięte i wysłane jeszcze raz)
+
+PORT - liczba identyfikująca aplikację, usługę a użytkownik chce wykorzystać  - chcemy się przekierować na dobrą usługę
+
+NAT - translacja adresów - służy efektywnemu wykorzystaniu sieci - nie każdy musi mieć swój publiczny adres - nie każdy musi rozgłaszać usługę więc można się chować za jednym publicznym
+ adresem. Czyli służy po to żeby ograniczyć ilość urządzeń w sieci.
+
+ Jak działa NAT?
+ Ktoś musi przechowywać informację na temat kto z czym się łączy, kto z czego korzysta - jeden host (przeważnie router brzegowy lub switch) ma tę informację.
+ NAT zamienia klasę adresy prywatne na jeden publiczny juz wiele.
+
+PAT - Port Address Translation
+
+DNS - Domain Name Service
+Aby nie pamiętać cyferek pamiętamy nazwy - DNS tłumaczy nazwy na adresy IP i odrwotnie
+
+DHCP - Dynamic Host Control Protocol
+Dynamiczne przydzielanie IP
+
+ZObacz sobie jak uruchomić DHCP na linuxie
+
+IPTABLES - najpowszechniajsza aplikacja do filtrowania
+firewall blokuje ruch - jeśli nie mamy zdefiniowanej usługi to firewall może coś zrobić z pakietami są 3 rodzaje akcji - odrzucanie, zrzucanie lub przepuszczanie - zrzucanie
+ jest po to bo nie wymaga odpowiedzi, a odrzucenie wymaga odpowiedzi.
+
+ Zainstaluj Virtual BOX -
+ Zdefiniuj 4 sieci:
+ Pierwsza - NAT (aby każdy host mógł się dokopać do sieci publicznej)
+ Druga trzecia i czwarta - ISOLATED (powinien mięc adres jakiś 192.168.0.0 192.168.1.0 192.168.2.0)
+ Sieci isolated będą się łączyć z siecią NAT - sieć nat będzie kontrolować dostęp do internetu
